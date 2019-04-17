@@ -1,0 +1,3 @@
+﻿  teil_2.cpp
+d:\gdvpraktikum\gdvpraktikum\teil_2.cpp(27): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  GDVPraktikum.vcxproj -> D:\GDVPraktikum\Debug\GDVPraktikum.exe
