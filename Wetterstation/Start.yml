@@ -1,0 +1,39 @@
+version: '3'
+services:
+  weathersensor-one:
+    image: sensor:latest
+    build:
+      context: .
+      dockerfile: sensor
+    environment:
+      - 'ip=127.0.0.1'
+      - 'port=4710'
+      - 'sensortype=Rain'
+  weathersensor-two:
+    image: sensor:latest
+    environment:
+      - 'ip=127.0.0.1'
+      - 'port=4711'
+      - 'sensortype=Windspeed'
+  weathersensor-three:
+    image: sensor:latest
+    environment:
+      - 'ip=127.0.0.1'
+      - 'port=4712'
+      - 'sensortype=Humidity'
+  weathersensor-four:
+    image: sensor:latest
+    environment:
+      - 'ip=127.0.0.1'
+      - 'port=4713'
+      - 'sensortype=Temperature'
+  weatherstation:
+    build:
+      context: .
+      dockerfile: allserver
+    environment:
+      - 'port=8080'
+     
+    ports:
+      - 8080:8080
+     

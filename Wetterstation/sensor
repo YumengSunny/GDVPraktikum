@@ -1,0 +1,31 @@
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+FROM maven:3.6-jdk-11 AS build 
+
+
+#Build sensor-dependency cache
+COPY Client/pom.xml /usr/sensor/pom.xml
+WORKDIR /usr/sensor
+RUN mvn dependency:go-offline
+
+#Build sensor
+COPY Client/ /usr/sensor/ 
+RUN mvn -f /usr/sensor/pom.xml clean package
+
+# Application Container
+FROM openjdk:8
+COPY --from=build /usr/sensor/target /usr/app
+
+ARG ip="127.0.0.1"
+ARG port=51020
+ARG sensortype="Generic Sensor"
+
+ENV env_ip=$ip \
+    env_port=$port \
+    env_sensortype=$sensortype
+
+
+COPY Docker/sensor.sh /run.sh
+
+ENTRYPOINT ["/run.sh"]
